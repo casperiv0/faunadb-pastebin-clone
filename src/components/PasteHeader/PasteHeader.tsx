@@ -30,7 +30,7 @@ export const PasteHeader = ({ paste }: Props) => {
     }
   }
 
-  if (!paste) {
+  if (!paste?.created_by) {
     return null;
   }
 
@@ -38,7 +38,7 @@ export const PasteHeader = ({ paste }: Props) => {
     <div className={styles.paste_header}>
       <div>
         <h1>{paste.title}</h1>
-        {paste.created_by.name === session?.user?.name ? (
+        {paste?.created_by?.name === session?.user?.name ? (
           <>
             <button onClick={deletePaste} className={styles.paste_btn}>
               Delete
@@ -50,20 +50,22 @@ export const PasteHeader = ({ paste }: Props) => {
         ) : null}
       </div>
 
-      <div className={styles.paste_creator}>
-        <div>
-          <p>{paste.created_by.name}</p>
-          <span>{format(+paste.created_at, "yyyy-MM-dd")}</span>
-        </div>
+      <Link href={`/user/${paste?.created_by?.name}`}>
+        <a className={styles.paste_creator}>
+          <div>
+            <p>{paste?.created_by?.name}</p>
+            <span>{format(+paste.created_at, "yyyy-MM-dd")}</span>
+          </div>
 
-        <Image
-          draggable={false}
-          src={paste.created_by.image}
-          width="50px"
-          height="50px"
-          layout="fixed"
-        />
-      </div>
+          <Image
+            draggable={false}
+            src={paste?.created_by?.image}
+            width="50px"
+            height="50px"
+            layout="fixed"
+          />
+        </a>
+      </Link>
     </div>
   );
 };

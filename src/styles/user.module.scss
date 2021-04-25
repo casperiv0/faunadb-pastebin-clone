@@ -1,0 +1,22 @@
+.user_container {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+
+  p {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+  }
+}
+
+.image {
+  border-radius: 50%;
+}
+
+.user_pastes {
+  margin-top: 2rem;
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+}

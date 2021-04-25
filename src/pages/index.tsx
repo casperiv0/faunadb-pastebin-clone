@@ -1,14 +1,11 @@
 import { GetServerSideProps, NextPage } from "next";
-import Link from "next/link";
 import { getSession } from "next-auth/client";
 import * as React from "react";
 import { useRouter } from "next/router";
-import formatDistance from "date-fns/formatDistance";
-import format from "date-fns/format";
 import { Layout } from "@components/Layout/Layout";
 import { Paste } from "types/Paste";
 import { handleRequest } from "@lib/fetch";
-import styles from "@css/home.module.scss";
+import { PastesTable } from "@components/PastesTable/PastesTable";
 
 interface Props {
   pastes: Paste[];
@@ -32,38 +29,7 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
       ) : filtered.length <= 0 ? (
         <p>There are no pastes found with that syntax</p>
       ) : (
-        <table className={styles.pastes_table}>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Created at</th>
-              <th>Syntax</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered
-              .sort((a, b) => +b.created_at - +a.created_at)
-              .map((paste) => {
-                return (
-                  <tr key={paste.id}>
-                    <td>
-                      <Link href={`/pastes/${paste.id}`}>
-                        <a>{paste.title}</a>
-                      </Link>
-                    </td>
-                    <td title={format(+paste.created_at, "yyyy-MM-dd, HH:mm:ss")}>
-                      {paste.created_at && formatDistance(Date.now(), +paste.created_at)} ago
-                    </td>
-                    <td>
-                      <Link href={`/?syntax=${paste.syntax ?? "text"}`}>
-                        <a>{paste.syntax ?? "text"}</a>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+        <PastesTable pastes={filtered} />
       )}
     </Layout>
   );

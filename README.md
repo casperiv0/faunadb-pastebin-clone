@@ -7,9 +7,3 @@ This is a pastebin "clone". Mostly to learn more about OAuth and [FaunaDB](https
 - FaunaDB
 - Next-Auth
 - TypeScript decorators
-
-## Todos
-
-- [ ] filter by syntax
-- [ ] account page
-- [ ] show pastes by user
