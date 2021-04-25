@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://paste.caspertheghost.me
+
+# Sitemaps
+Sitemap: https://paste.caspertheghost.me/sitemap.xml

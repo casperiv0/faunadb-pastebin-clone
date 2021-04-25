@@ -52,7 +52,7 @@ export const PasteHeader = ({ paste }: Props) => {
 
       <Link href={`/user/${paste?.created_by?.name}`}>
         <a className={styles.paste_creator}>
-          <div>
+          <div className={styles.paste_creator_text}>
             <p>{paste?.created_by?.name}</p>
             <span>{format(+paste.created_at, "yyyy-MM-dd")}</span>
           </div>
