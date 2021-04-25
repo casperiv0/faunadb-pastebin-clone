@@ -1,0 +1,22 @@
+.form_group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form_btn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #003049;
+  border: 1px solid #ffffff;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: outline 200ms;
+  outline: 2px solid transparent;
+  outline-offset: 0.5px;
+
+  &:hover {
+    outline: 2px solid #003049;
+  }
+}

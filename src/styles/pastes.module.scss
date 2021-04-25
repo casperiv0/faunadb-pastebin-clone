@@ -1,0 +1,46 @@
+.form_group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.form_input {
+  color: #ffffff;
+  border: 1.5px solid #1b2127;
+  background: #1b2127;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: border 200ms;
+  border-radius: 0.3rem;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 2.2rem;
+
+  &:focus {
+    outline: none;
+    border-color: #dddddd;
+  }
+}
+
+.form_btn {
+  padding: 0.5rem 1rem;
+  background: #1b2127;
+  color: #ffffff;
+  border: 1.5px solid #1b2127;
+  cursor: pointer;
+  border-radius: 0.3rem;
+
+  &:focus {
+    outline: none;
+    border-color: #dddddd;
+  }
+}

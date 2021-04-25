@@ -1,0 +1,22 @@
+.layout_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.layout_content {
+  --content-width: 70%;
+  width: var(--content-width);
+
+  @media (min-width: 1300px) {
+    --content-width: 1200px;
+  }
+
+  @media (max-width: 1000px) {
+    --content-width: 85%;
+  }
+
+  @media (max-width: 768px) {
+    --content-width: 95%;
+  }
+}

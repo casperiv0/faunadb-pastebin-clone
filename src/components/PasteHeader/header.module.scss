@@ -1,0 +1,25 @@
+.paste_header {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.paste_creator {
+  display: flex;
+
+  img {
+    border-radius: 50%;
+  }
+
+  > div:nth-child(1) {
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: right;
+
+    p {
+      font-size: 1.3rem;
+    }
+  }
+}
