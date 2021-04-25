@@ -1,8 +1,8 @@
 import { Collection, Create, Get, Index, Match } from "faunadb";
 import Auth from "next-auth";
 import Providers from "next-auth/providers";
-import { User } from "src/interfaces/User";
-import { client } from "src/lib/faunadb";
+import { User } from "types/User";
+import { client } from "@lib/faunadb";
 
 const clientId = process.env.GH_CLIENT_ID;
 const clientSecret = process.env.GH_CLIENT_SECRET;

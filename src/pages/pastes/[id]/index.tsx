@@ -1,8 +1,12 @@
-import { Layout } from "@components/Layout/Layout";
+import { getSession } from "next-auth/client";
+import SyntaxHighlighter from "react-syntax-highlighter/dist/cjs/prism-async-light";
+import Theme from "react-syntax-highlighter/dist/cjs/styles/prism/tomorrow";
 import { GetServerSideProps, NextPage } from "next";
-import { Paste } from "src/interfaces/Paste";
-import { handleRequest } from "src/lib/fetch";
+import { Layout } from "@components/Layout/Layout";
+import { Paste } from "types/Paste";
+import { handleRequest } from "@lib/fetch";
 import { PasteHeader } from "@components/PasteHeader/PasteHeader";
+import styles from "@css/pastes.module.scss";
 
 interface Props {
   paste: Paste | null;
@@ -21,17 +25,23 @@ const PastePage: NextPage<Props> = ({ paste }) => {
     <Layout showNav toast>
       <PasteHeader paste={paste} />
 
-      <div>{paste.text}</div>
+      <div className={styles.syntax_container}>
+        <SyntaxHighlighter style={Theme} language={paste.syntax || "text"}>
+          {String(paste.text).replace(/\n$/, "")}
+        </SyntaxHighlighter>
+      </div>
     </Layout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const res = await handleRequest(`/pastes/${query.id}`).catch(() => null);
+  const session = await getSession({ req });
 
   return {
     props: {
       paste: res?.data ?? null,
+      session: session ?? null,
     },
   };
 };

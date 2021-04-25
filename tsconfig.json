@@ -15,11 +15,11 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "experimentalDecorators": true,
-
     "paths": {
       "@components/*": ["./src/components/*"],
-      "types/*": ["./src/interfaces"],
-      "@css/*": ["./src/styles/*"]
+      "types/*": ["./src/interfaces/*"],
+      "@css/*": ["./src/styles/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

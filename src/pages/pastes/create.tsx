@@ -2,12 +2,14 @@ import * as React from "react";
 import { toast } from "react-toastify";
 import { Layout } from "@components/Layout/Layout";
 import styles from "@css/pastes.module.scss";
-import { handleRequest } from "src/lib/fetch";
+import { handleRequest } from "@lib/fetch";
 import { useRouter } from "next/router";
+import languages from "@lib/languages";
 
 const CreatePastePage = () => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
+  const [syntax, setSyntax] = React.useState("text");
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
@@ -19,6 +21,7 @@ const CreatePastePage = () => {
       const { data } = await handleRequest("/pastes", "POST", {
         title,
         text: body,
+        syntax: syntax || "text",
       });
 
       if (data.status === "success") {
@@ -48,9 +51,30 @@ const CreatePastePage = () => {
         </div>
 
         <div className={styles.form_group}>
+          <label htmlFor="paste_title">Select syntax</label>
+
+          <select
+            onChange={(e) => setSyntax(e.target.value)}
+            value={syntax}
+            className={styles.form_input}
+          >
+            {languages.map((language: string) => {
+              return (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        <div className={styles.form_group}>
           <label htmlFor="paste_body">Paste Body</label>
 
           <textarea
+            spellCheck="false"
+            autoComplete="false"
+            autoCorrect="false"
             rows={10}
             value={body}
             onChange={(e) => setBody(e.currentTarget.value)}

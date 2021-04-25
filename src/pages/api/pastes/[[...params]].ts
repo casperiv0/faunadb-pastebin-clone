@@ -31,9 +31,9 @@ import {
 import { NextApiRequest } from "next";
 import { getSession } from "next-auth/client";
 import { NextApiRequestQuery } from "next/dist/next-server/server/api-utils";
-import { Paste } from "src/interfaces/Paste";
-import { User } from "src/interfaces/User";
-import { client } from "src/lib/faunadb";
+import { Paste } from "types/Paste";
+import { User } from "types/User";
+import { client } from "@lib/faunadb";
 
 class PastesRouter {
   @GetRoute()
@@ -75,7 +75,7 @@ class PastesRouter {
 
   @Post()
   public async createPaste(@Req() req: NextApiRequest, @Body(ValidationPipe) body: any) {
-    const { title, text } = body;
+    const { title, text, syntax } = body;
     const session = await getSession({ req });
 
     if (!session) {
@@ -100,6 +100,7 @@ class PastesRouter {
           data: {
             text,
             title,
+            syntax: syntax || "text",
             created_at: Date.now(),
             updated_at: Date.now(),
             created_by: user.data,
@@ -145,6 +146,7 @@ class PastesRouter {
     await client.query(
       Update(Ref(Collection("pastes"), id), {
         data: {
+          syntax: body.syntax || "text",
           text: body.text,
           title: body.title,
         },

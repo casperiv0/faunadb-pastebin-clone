@@ -21,7 +21,10 @@ export const Navbar = () => {
                 <a className={styles.nav_link}>Create paste</a>
               </Link>
 
-              <button onClick={() => signOut({ redirect: false })} className={styles.nav_link}>
+              <button
+                onClick={() => signOut({ redirect: false, callbackUrl: "/" })}
+                className={styles.nav_link}
+              >
                 Logout
               </button>
             </>

@@ -5,9 +5,9 @@ import * as React from "react";
 import { Session } from "next-auth";
 import { GetServerSideProps, NextPage } from "next";
 import { Layout } from "@components/Layout/Layout";
-import { Paste } from "src/interfaces/Paste";
+import { Paste } from "types/Paste";
 import styles from "@css/pastes.module.scss";
-import { handleRequest } from "src/lib/fetch";
+import { handleRequest } from "@lib/fetch";
 
 interface Props {
   paste: Paste | null;
@@ -56,7 +56,7 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
     );
   }
 
-  if (paste.created_by.name !== session.user?.name) {
+  if (paste?.created_by?.name !== session.user?.name) {
     return (
       <Layout showNav>
         <p>This paste is not associated with your account!</p>
@@ -82,6 +82,9 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
           <label htmlFor="paste_body">Paste Body</label>
 
           <textarea
+            spellCheck="false"
+            autoComplete="false"
+            autoCorrect="false"
             rows={10}
             value={body}
             onChange={(e) => setBody(e.currentTarget.value)}

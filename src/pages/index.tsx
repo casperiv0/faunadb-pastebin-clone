@@ -1,22 +1,36 @@
 import { GetServerSideProps, NextPage } from "next";
-import formatDistance from "date-fns/formatDistance";
-import { Layout } from "@components/Layout/Layout";
-import { Paste } from "src/interfaces/Paste";
-import { handleRequest } from "src/lib/fetch";
-import styles from "@css/home.module.scss";
 import Link from "next/link";
+import { getSession } from "next-auth/client";
+import * as React from "react";
+import { useRouter } from "next/router";
+import formatDistance from "date-fns/formatDistance";
+import format from "date-fns/format";
+import { Layout } from "@components/Layout/Layout";
+import { Paste } from "types/Paste";
+import { handleRequest } from "@lib/fetch";
+import styles from "@css/home.module.scss";
 
 interface Props {
   pastes: Paste[];
 }
 
 const HomePage: NextPage<Props> = ({ pastes }) => {
-  // TODO: filter via syntax
+  const router = useRouter();
+
+  const filtered = React.useMemo(() => {
+    if (router.query.syntax) {
+      return pastes.filter((p) => p.syntax === router.query.syntax);
+    } else {
+      return pastes;
+    }
+  }, [router, pastes]);
 
   return (
     <Layout showNav>
       {pastes.length <= 0 ? (
         <p>There are no pastes yet</p>
+      ) : filtered.length <= 0 ? (
+        <p>There are no pastes found with that syntax</p>
       ) : (
         <table className={styles.pastes_table}>
           <thead>
@@ -27,7 +41,7 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
             </tr>
           </thead>
           <tbody>
-            {pastes
+            {filtered
               .sort((a, b) => +b.created_at - +a.created_at)
               .map((paste) => {
                 return (
@@ -37,8 +51,8 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
                         <a>{paste.title}</a>
                       </Link>
                     </td>
-                    <td>
-                      {paste.created_at && formatDistance(Date.now(), +paste.created_at, {})} ago
+                    <td title={format(+paste.created_at, "yyyy-MM-dd, HH:mm:ss")}>
+                      {paste.created_at && formatDistance(Date.now(), +paste.created_at)} ago
                     </td>
                     <td>
                       <Link href={`/?syntax=${paste.syntax ?? "text"}`}>
@@ -55,12 +69,14 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { data } = await handleRequest("/pastes");
+  const session = await getSession({ req });
 
   return {
     props: {
       pastes: data,
+      session: session ?? null,
     },
   };
 };

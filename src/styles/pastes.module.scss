@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "CascadiaMono";
+  src: url("/fonts/CascadiaMono.woff2");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
 .form_group {
   display: flex;
   flex-direction: column;
@@ -10,6 +18,7 @@
 
   textarea {
     resize: vertical;
+    font-family: "CascadiaMono", "Courier New", monospace;
   }
 }
 
@@ -47,5 +56,21 @@
   &:focus {
     outline: none;
     border-color: #dddddd;
+  }
+}
+
+.syntax_container {
+  pre {
+    background: #1b2127 !important;
+    border-radius: 0.5rem;
+    font-family: "CascadiaMono", "Courier New", monospace !important;
+
+    code {
+      font-family: "CascadiaMono", "Courier New", monospace !important;
+
+      span {
+        font-family: "CascadiaMono", "Courier New", monospace !important;
+      }
+    }
   }
 }

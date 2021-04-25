@@ -4,9 +4,9 @@ import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import { Paste } from "src/interfaces/Paste";
+import { Paste } from "types/Paste";
 import styles from "./header.module.scss";
-import { handleRequest } from "src/lib/fetch";
+import { handleRequest } from "@lib/fetch";
 
 interface Props {
   paste: Paste;
@@ -28,6 +28,10 @@ export const PasteHeader = ({ paste }: Props) => {
     } catch (e) {
       toast.error(e?.response?.data?.message);
     }
+  }
+
+  if (!paste) {
+    return null;
   }
 
   return (
