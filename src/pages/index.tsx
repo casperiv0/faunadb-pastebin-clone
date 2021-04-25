@@ -27,13 +27,15 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
     <Layout showNav>
       <Seo />
 
-      {pastes.length <= 0 ? (
-        <p>There are no pastes yet</p>
-      ) : filtered.length <= 0 ? (
-        <p>There are no pastes found with that syntax</p>
-      ) : (
-        <PastesTable showCreatedBy pastes={filtered} />
-      )}
+      <div style={{ marginTop: "1rem" }}>
+        {pastes.length <= 0 ? (
+          <p>There are no pastes yet</p>
+        ) : filtered.length <= 0 ? (
+          <p>There are no pastes found with that syntax</p>
+        ) : (
+          <PastesTable showCreatedBy pastes={filtered} />
+        )}
+      </div>
     </Layout>
   );
 };

@@ -9,6 +9,7 @@ import { Get, Index, Lambda, Map, Match, Paginate } from "faunadb";
 import { Paste } from "types/Paste";
 import { client } from "@lib/faunadb";
 import { User } from "types/User";
+import { QueryData } from "types/Query";
 
 class PastesRouter {
   @GetRoute("/:name")
@@ -18,7 +19,9 @@ class PastesRouter {
     pastes: Paste[];
     user: User;
   }> {
-    const user = await client.query(Get(Match(Index("get_user_by_name"), name))).catch(() => null);
+    const user = await client
+      .query<QueryData<User>>(Get(Match(Index("get_user_by_name"), name)))
+      .catch(() => null);
 
     if (!user?.data) {
       throw new NotFoundException("That user was not found");
@@ -39,10 +42,10 @@ class PastesRouter {
 
     return {
       user: {
-        id: user.ref.id,
         ...user.data,
+        id: user.ref.id,
       },
-      pastes: pastes.data.map((paste) => ({
+      pastes: pastes.data.map((paste: QueryData<Paste>) => ({
         ...paste.data,
         id: paste.ref?.id,
       })),

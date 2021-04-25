@@ -34,6 +34,7 @@ import { NextApiRequestQuery } from "next/dist/next-server/server/api-utils";
 import { Paste } from "types/Paste";
 import { User } from "types/User";
 import { client } from "@lib/faunadb";
+import { QueryData } from "types/Query";
 
 class PastesRouter {
   @GetRoute()
@@ -41,7 +42,7 @@ class PastesRouter {
     const pastes = await client
       .query<{ data: { data: Paste; ref: any }[] }>(
         Map(
-          Paginate(Documents(Collection("pastes")), { size: Number(query.length) || 10 }),
+          Paginate(Documents(Collection("pastes")), { size: Number(query.amount) || 30 }),
           Lambda((x) => Get(x)),
         ),
       )
@@ -61,15 +62,17 @@ class PastesRouter {
 
   @GetRoute("/:id")
   public async getPasteById(@Param("id") id: string): Promise<Paste> {
-    const paste = await client.query(Get(Ref(Collection("pastes"), id))).catch(() => null);
+    const paste = await client
+      .query<QueryData<Paste>>(Get(Ref(Collection("pastes"), id)))
+      .catch(() => null);
 
     if (!paste?.data) {
       throw new NotFoundException("That paste was not found");
     }
 
     return {
-      id: paste.ref.id,
       ...paste.data,
+      id: paste.ref.id,
     };
   }
 
@@ -78,7 +81,7 @@ class PastesRouter {
     const { title, text, syntax } = body;
     const session = await getSession({ req });
 
-    if (!session || !session?.user) {
+    if (!session || !session?.user?.name) {
       throw new UnauthorizedException("You need to be logged in to continue");
     }
 
@@ -87,7 +90,7 @@ class PastesRouter {
     }
 
     const user = await client
-      .query<{ data: User }>(Get(Match(Index("get_user_by_name"), session.user?.name)))
+      .query<QueryData<User>>(Get(Match(Index("get_user_by_name"), session.user?.name)))
       .catch(() => null);
 
     if (!user?.data) {
@@ -95,7 +98,7 @@ class PastesRouter {
     }
 
     const paste = await client
-      .query(
+      .query<QueryData<Paste>>(
         Create(Collection("pastes"), {
           data: {
             text,
@@ -111,8 +114,8 @@ class PastesRouter {
 
     return {
       paste: {
-        id: paste.ref?.id,
-        ...paste.data,
+        id: paste?.ref?.id,
+        ...paste?.data,
       },
       status: "success",
     };
@@ -124,7 +127,9 @@ class PastesRouter {
     @Param("id") id: string,
     @Body(ValidationPipe) body: any,
   ) {
-    const paste = await client.query(Get(Ref(Collection("pastes"), id))).catch(() => null);
+    const paste = await client
+      .query<QueryData<Paste>>(Get(Ref(Collection("pastes"), id)))
+      .catch(() => null);
     const session = await getSession({ req });
 
     if (!session) {
@@ -160,7 +165,9 @@ class PastesRouter {
 
   @Delete("/:id")
   public async deletePaste(@Req() req: NextApiRequest, @Param("id") id: string) {
-    const paste = await client.query(Get(Ref(Collection("pastes"), id))).catch(() => null);
+    const paste = await client
+      .query<QueryData<Paste>>(Get(Ref(Collection("pastes"), id)))
+      .catch(() => null);
     const session = await getSession({ req });
 
     if (!session) {

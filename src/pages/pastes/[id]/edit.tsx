@@ -2,11 +2,13 @@ import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import * as React from "react";
+import Link from "next/link";
 import { Session } from "next-auth";
 import { GetServerSideProps, NextPage } from "next";
 import { Layout } from "@components/Layout/Layout";
 import { Paste } from "types/Paste";
 import styles from "@css/pastes.module.scss";
+import navStyles from "@components/Navbar/navbar.module.scss";
 import { handleRequest } from "@lib/fetch";
 import languages from "@lib/languages";
 import { Seo } from "@components/Seo";
@@ -35,14 +37,14 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
     setLoading(true);
 
     try {
-      const { data } = await handleRequest(`/pastes/${paste.id}`, "PUT", {
+      const { data } = await handleRequest(`/pastes/${paste?.id}`, "PUT", {
         title,
         text: body,
         syntax: syntax || "text",
       });
 
       if (data.status === "success") {
-        router.push(`/pastes/${paste.id}`);
+        router.push(`/pastes/${paste?.id}`);
       } else {
         toast.error("An unexpected error occurred");
       }
@@ -120,6 +122,11 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
         </div>
 
         <div style={{ float: "right" }}>
+          <Link href={`/pastes/${paste.id}`}>
+            <a style={{ marginRight: "0.5rem" }} className={navStyles.nav_link}>
+              Cancel
+            </a>
+          </Link>
           <button disabled={loading} className={styles.form_btn}>
             {loading ? "loading.." : "Update"}
           </button>

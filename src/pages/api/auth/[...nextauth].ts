@@ -3,6 +3,7 @@ import Auth from "next-auth";
 import Providers from "next-auth/providers";
 import { User } from "types/User";
 import { client } from "@lib/faunadb";
+import { QueryData } from "types/Query";
 
 const clientId = process.env.GH_CLIENT_ID;
 const clientSecret = process.env.GH_CLIENT_SECRET;
@@ -37,9 +38,14 @@ export default Auth({
   theme: "dark",
   callbacks: {
     signIn: async (user, _, profile) => {
+      // TODO: redirect to error page with ?error=
+      if (!user.name) {
+        return false;
+      }
+
       // try find the user
-      let foundUser: { ref: typeof Ref; data: User | null } = await client
-        .query(Get(Match(Index("get_user_by_name"), user.name)))
+      let foundUser = await client
+        .query<QueryData<User>>(Get(Match(Index("get_user_by_name"), user.name)))
         .catch(() => null);
 
       // create a new user if the user was not found
@@ -55,9 +61,9 @@ export default Auth({
         );
       }
 
-      if (!foundUser.data?.login) {
+      if (!foundUser?.data?.login) {
         await client.query(
-          Update(Ref(foundUser.ref), {
+          Update(Ref(foundUser!.ref), {
             data: {
               login: profile.login,
             },
