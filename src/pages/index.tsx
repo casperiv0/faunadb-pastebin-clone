@@ -29,7 +29,7 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
       ) : filtered.length <= 0 ? (
         <p>There are no pastes found with that syntax</p>
       ) : (
-        <PastesTable pastes={filtered} />
+        <PastesTable showCreatedBy pastes={filtered} />
       )}
     </Layout>
   );
