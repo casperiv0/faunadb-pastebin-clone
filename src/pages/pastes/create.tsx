@@ -8,10 +8,12 @@ import { useRouter } from "next/router";
 const CreatePastePage = () => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const { data } = await handleRequest("/pastes", "POST", {
@@ -27,6 +29,8 @@ const CreatePastePage = () => {
     } catch (e) {
       toast.error(e?.response?.data?.message);
     }
+
+    setLoading(false);
   }
 
   return (
@@ -56,7 +60,9 @@ const CreatePastePage = () => {
         </div>
 
         <div style={{ float: "right" }}>
-          <button className={styles.form_btn}>Create</button>
+          <button disabled={loading} className={styles.form_btn}>
+            {loading ? "Loading.." : "Create"}
+          </button>
         </div>
       </form>
     </Layout>

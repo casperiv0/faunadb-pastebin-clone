@@ -10,8 +10,6 @@ This is a pastebin "clone". Mostly to learn more about OAuth and [FaunaDB](https
 
 ## Todos
 
-- [ ] Edit pastes
-- [ ] Delete pastes
 - [ ] filter by syntax
 - [ ] account page
 - [ ] show pastes by user

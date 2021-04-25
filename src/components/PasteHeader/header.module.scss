@@ -15,11 +15,27 @@
     margin-right: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     text-align: right;
 
     p {
+      margin-bottom: 0.5rem;
       font-size: 1.3rem;
     }
   }
+}
+
+.paste_btn {
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  color: #ffffff;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+button.paste_btn {
+  background: rgb(175, 42, 42);
+  border: 1px solid rgb(175, 42, 42);
 }

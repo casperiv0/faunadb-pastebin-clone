@@ -15,38 +15,42 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
 
   return (
     <Layout showNav>
-      <table className={styles.pastes_table}>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Created at</th>
-            <th>Syntax</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pastes
-            .sort((a, b) => +b.created_at - +a.created_at)
-            .map((paste) => {
-              return (
-                <tr key={paste.id}>
-                  <td>
-                    <Link href={`/pastes/${paste.id}`}>
-                      <a>{paste.title}</a>
-                    </Link>
-                  </td>
-                  <td>
-                    {paste.created_at && formatDistance(Date.now(), +paste.created_at, {})} ago
-                  </td>
-                  <td>
-                    <Link href={`/?syntax=${paste.syntax ?? "text"}`}>
-                      <a>{paste.syntax ?? "text"}</a>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      {pastes.length <= 0 ? (
+        <p>There are no pastes yet</p>
+      ) : (
+        <table className={styles.pastes_table}>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Created at</th>
+              <th>Syntax</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pastes
+              .sort((a, b) => +b.created_at - +a.created_at)
+              .map((paste) => {
+                return (
+                  <tr key={paste.id}>
+                    <td>
+                      <Link href={`/pastes/${paste.id}`}>
+                        <a>{paste.title}</a>
+                      </Link>
+                    </td>
+                    <td>
+                      {paste.created_at && formatDistance(Date.now(), +paste.created_at, {})} ago
+                    </td>
+                    <td>
+                      <Link href={`/?syntax=${paste.syntax ?? "text"}`}>
+                        <a>{paste.syntax ?? "text"}</a>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      )}
     </Layout>
   );
 };

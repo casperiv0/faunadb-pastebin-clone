@@ -42,8 +42,6 @@ export default Auth({
         .query(Get(Match(Index("get_user_by_name"), user.name)))
         .catch(() => null);
 
-      console.log(user);
-
       // create a new user if the user was not found
       if (!foundUser?.data) {
         foundUser = await client.query(

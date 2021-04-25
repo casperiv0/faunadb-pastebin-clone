@@ -39,6 +39,11 @@
   cursor: pointer;
   border-radius: 0.3rem;
 
+  &:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
+
   &:focus {
     outline: none;
     border-color: #dddddd;

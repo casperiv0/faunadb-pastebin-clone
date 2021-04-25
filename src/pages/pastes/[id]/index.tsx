@@ -9,7 +9,13 @@ interface Props {
 }
 
 const PastePage: NextPage<Props> = ({ paste }) => {
-  console.log(paste);
+  if (!paste) {
+    return (
+      <Layout showNav>
+        <p>Paste was not found!</p>
+      </Layout>
+    );
+  }
 
   return (
     <Layout showNav toast>
@@ -21,11 +27,11 @@ const PastePage: NextPage<Props> = ({ paste }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { data } = await handleRequest(`/pastes/${query.id}`);
+  const res = await handleRequest(`/pastes/${query.id}`).catch(() => null);
 
   return {
     props: {
-      paste: data ?? null,
+      paste: res?.data ?? null,
     },
   };
 };

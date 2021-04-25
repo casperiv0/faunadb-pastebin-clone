@@ -11,6 +11,8 @@ import {
   Req,
   UnauthorizedException,
   Query,
+  Delete,
+  Put,
 } from "@storyofams/next-api-decorators";
 import {
   Collection,
@@ -23,6 +25,8 @@ import {
   Match,
   Paginate,
   Ref,
+  Delete as DeleteDb,
+  Update,
 } from "faunadb";
 import { NextApiRequest } from "next";
 import { getSession } from "next-auth/client";
@@ -63,7 +67,10 @@ class PastesRouter {
       throw new NotFoundException("That paste was not found");
     }
 
-    return paste.data;
+    return {
+      id: paste.ref.id,
+      ...paste.data,
+    };
   }
 
   @Post()
@@ -106,6 +113,69 @@ class PastesRouter {
         id: paste.ref?.id,
         ...paste.data,
       },
+      status: "success",
+    };
+  }
+
+  @Put("/:id")
+  public async editPaste(
+    @Req() req: NextApiRequest,
+    @Param("id") id: string,
+    @Body(ValidationPipe) body: any,
+  ) {
+    const paste = await client.query(Get(Ref(Collection("pastes"), id))).catch(() => null);
+    const session = await getSession({ req });
+
+    if (!session) {
+      throw new UnauthorizedException("You need to be logged in to continue");
+    }
+
+    if (!paste?.data) {
+      throw new NotFoundException("That paste was not found");
+    }
+
+    if (paste.data.created_by.name !== session.user?.name) {
+      throw new HttpException(403, "This paste is not associated with your account");
+    }
+
+    if (!body.text || !body.title) {
+      throw new BadRequestException("`title` and `text` are required");
+    }
+
+    await client.query(
+      Update(Ref(Collection("pastes"), id), {
+        data: {
+          text: body.text,
+          title: body.title,
+        },
+      }),
+    );
+
+    return {
+      status: "success",
+    };
+  }
+
+  @Delete("/:id")
+  public async deletePaste(@Req() req: NextApiRequest, @Param("id") id: string) {
+    const paste = await client.query(Get(Ref(Collection("pastes"), id))).catch(() => null);
+    const session = await getSession({ req });
+
+    if (!session) {
+      throw new UnauthorizedException("You need to be logged in to continue");
+    }
+
+    if (!paste?.data) {
+      throw new NotFoundException("That paste was not found");
+    }
+
+    if (paste.data.created_by.name !== session.user?.name) {
+      throw new HttpException(403, "This paste is not associated with your account");
+    }
+
+    await client.query(DeleteDb(Ref(Collection("pastes"), id)));
+
+    return {
       status: "success",
     };
   }
