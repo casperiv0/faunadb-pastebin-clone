@@ -4,6 +4,6 @@ This is a pastebin "clone". Mostly to learn more about OAuth and [FaunaDB](https
 
 ## what I learned
 
-- FaunaDB
-- Next-Auth
-- TypeScript decorators
+- [FaunaDB](https://faunadb.com)
+- [next-auth](https://next-auth.js.org)
+- TypeScript decorators ([@storyofams/next-api-decorators](https://github.com/storyofams/next-api-decorators))

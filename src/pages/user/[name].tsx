@@ -33,7 +33,7 @@ const PastePage: NextPage<Props> = ({ user, pastes }) => {
           height="50px"
           layout="fixed"
         />
-        <p>{user.name}</p>
+        <a href={`https://github.com/${user.name}`}>{user.name}</a>
       </div>
 
       <div className={styles.user_pastes}>

@@ -8,6 +8,7 @@ import { Layout } from "@components/Layout/Layout";
 import { Paste } from "types/Paste";
 import styles from "@css/pastes.module.scss";
 import { handleRequest } from "@lib/fetch";
+import languages from "@lib/languages";
 
 interface Props {
   paste: Paste | null;
@@ -18,12 +19,14 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [syntax, setSyntax] = React.useState("text");
   const router = useRouter();
 
   React.useEffect(() => {
     if (!paste) return;
     setBody(paste.text);
     setTitle(paste.title);
+    setSyntax(paste.syntax);
   }, [paste]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -34,6 +37,7 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
       const { data } = await handleRequest(`/pastes/${paste.id}`, "PUT", {
         title,
         text: body,
+        syntax: syntax || "text",
       });
 
       if (data.status === "success") {
@@ -76,6 +80,24 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
             id="paste_title"
             className={styles.form_input}
           />
+        </div>
+
+        <div className={styles.form_group}>
+          <label htmlFor="paste_title">Select syntax</label>
+
+          <select
+            onChange={(e) => setSyntax(e.target.value)}
+            value={syntax}
+            className={styles.form_input}
+          >
+            {languages.map((language: string) => {
+              return (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              );
+            })}
+          </select>
         </div>
 
         <div className={styles.form_group}>

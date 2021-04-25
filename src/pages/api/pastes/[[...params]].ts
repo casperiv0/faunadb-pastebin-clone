@@ -78,7 +78,7 @@ class PastesRouter {
     const { title, text, syntax } = body;
     const session = await getSession({ req });
 
-    if (!session) {
+    if (!session || !session?.user) {
       throw new UnauthorizedException("You need to be logged in to continue");
     }
 
