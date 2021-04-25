@@ -5,6 +5,7 @@ import styles from "@css/pastes.module.scss";
 import { handleRequest } from "@lib/fetch";
 import { useRouter } from "next/router";
 import languages from "@lib/languages";
+import { Seo } from "@components/Seo";
 
 const CreatePastePage = () => {
   const [title, setTitle] = React.useState("");
@@ -38,6 +39,8 @@ const CreatePastePage = () => {
 
   return (
     <Layout showNav toast>
+      <Seo title="Create a new paste - FaunaDB pastebin clone" />
+
       <form onSubmit={onSubmit}>
         <div className={styles.form_group}>
           <label htmlFor="paste_title">Paste Title</label>

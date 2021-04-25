@@ -9,6 +9,7 @@ import { Paste } from "types/Paste";
 import styles from "@css/pastes.module.scss";
 import { handleRequest } from "@lib/fetch";
 import languages from "@lib/languages";
+import { Seo } from "@components/Seo";
 
 interface Props {
   paste: Paste | null;
@@ -55,6 +56,7 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
   if (!paste) {
     return (
       <Layout showNav>
+        <Seo />
         <p>Paste was not found!</p>
       </Layout>
     );
@@ -63,6 +65,7 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
   if (paste?.created_by?.name !== session.user?.name) {
     return (
       <Layout showNav>
+        <Seo />
         <p>This paste is not associated with your account!</p>
       </Layout>
     );
@@ -70,6 +73,7 @@ const EditPastePage: NextPage<Props> = ({ paste, session }) => {
 
   return (
     <Layout showNav toast>
+      <Seo />
       <form onSubmit={onSubmit}>
         <div className={styles.form_group}>
           <label htmlFor="paste_title">Paste Title</label>

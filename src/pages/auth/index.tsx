@@ -4,6 +4,7 @@ import styles from "@css/auth.module.scss";
 import { getSession, signIn, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
+import { Seo } from "@components/Seo";
 
 const AuthPage = () => {
   const [session] = useSession();
@@ -26,6 +27,7 @@ const AuthPage = () => {
 
   return (
     <Layout showNav toast>
+      <Seo title="Authenticate - FaunaDB pastebin clone" />
       <form onSubmit={onSubmit}>
         <div className={styles.form_group}>
           <button className={styles.form_btn}>Login via GitHub</button>

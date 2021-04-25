@@ -7,6 +7,7 @@ import { User } from "types/User";
 import styles from "@css/user.module.scss";
 import { Paste } from "types/Paste";
 import { PastesTable } from "@components/PastesTable/PastesTable";
+import { Seo } from "@components/Seo";
 
 interface Props {
   user: User | null;
@@ -17,6 +18,7 @@ const PastePage: NextPage<Props> = ({ user, pastes }) => {
   if (!user) {
     return (
       <Layout showNav>
+        <Seo title="User not found - FaunaDB pastebin clone" />
         <p>User was not found!</p>
       </Layout>
     );
@@ -24,6 +26,7 @@ const PastePage: NextPage<Props> = ({ user, pastes }) => {
 
   return (
     <Layout showNav toast>
+      <Seo title={`${user.name} - FaunaDB pastebin clone`} />
       <div className={styles.user_container}>
         <Image
           className={styles.image}

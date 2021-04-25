@@ -6,6 +6,7 @@ import { Layout } from "@components/Layout/Layout";
 import { Paste } from "types/Paste";
 import { handleRequest } from "@lib/fetch";
 import { PastesTable } from "@components/PastesTable/PastesTable";
+import { Seo } from "@components/Seo";
 
 interface Props {
   pastes: Paste[];
@@ -24,6 +25,8 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
 
   return (
     <Layout showNav>
+      <Seo />
+
       {pastes.length <= 0 ? (
         <p>There are no pastes yet</p>
       ) : filtered.length <= 0 ? (

@@ -7,6 +7,7 @@ import { Paste } from "types/Paste";
 import { handleRequest } from "@lib/fetch";
 import { PasteHeader } from "@components/PasteHeader/PasteHeader";
 import styles from "@css/pastes.module.scss";
+import { Seo } from "@components/Seo";
 
 interface Props {
   paste: Paste | null;
@@ -16,6 +17,7 @@ const PastePage: NextPage<Props> = ({ paste }) => {
   if (!paste) {
     return (
       <Layout showNav>
+        <Seo title="Paste was not found - FaunaDB pastebin clone" />
         <p>Paste was not found!</p>
       </Layout>
     );
@@ -23,6 +25,7 @@ const PastePage: NextPage<Props> = ({ paste }) => {
 
   return (
     <Layout showNav toast>
+      <Seo title={`${paste.title} - FaunaDB pastebin clone`} description={paste.text} />
       <PasteHeader paste={paste} />
 
       <div className={styles.syntax_container}>
