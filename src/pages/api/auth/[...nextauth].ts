@@ -1,4 +1,4 @@
-import { Collection, Create, Get, Index, Match } from "faunadb";
+import { Collection, Create, Get, Index, Match, Ref, Update } from "faunadb";
 import Auth from "next-auth";
 import Providers from "next-auth/providers";
 import { User } from "types/User";
@@ -36,9 +36,9 @@ export default Auth({
   debug: false,
   theme: "dark",
   callbacks: {
-    signIn: async (user) => {
+    signIn: async (user, _, profile) => {
       // try find the user
-      let foundUser: { data: User | null } = await client
+      let foundUser: { ref: typeof Ref; data: User | null } = await client
         .query(Get(Match(Index("get_user_by_name"), user.name)))
         .catch(() => null);
 
@@ -49,6 +49,17 @@ export default Auth({
             data: {
               image: user.image,
               name: user.name,
+              login: profile.login,
+            },
+          }),
+        );
+      }
+
+      if (!foundUser.data?.login) {
+        await client.query(
+          Update(Ref(foundUser.ref), {
+            data: {
+              login: profile.login,
             },
           }),
         );
