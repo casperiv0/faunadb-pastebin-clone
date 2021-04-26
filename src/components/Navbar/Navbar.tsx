@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/client";
 import styles from "./navbar.module.scss";
+import { Dropdown } from "@components/Dropdown/Dropdown";
+import dropdownStyles from "../Dropdown/dropdown.module.scss";
 
 export const Navbar = () => {
   const [session] = useSession();
@@ -17,16 +19,21 @@ export const Navbar = () => {
         <div className={styles.nav_links}>
           {session ? (
             <>
-              <Link href="/pastes/create">
-                <a className={styles.nav_link}>Create paste</a>
-              </Link>
+              <Dropdown>
+                <Link href="/pastes/create">
+                  <a className={dropdownStyles.dropdown_item}>Create paste</a>
+                </Link>
+                <Link href={`/user/${session.user?.name}`}>
+                  <a className={dropdownStyles.dropdown_item}>Account</a>
+                </Link>
 
-              <button
-                onClick={() => signOut({ redirect: false, callbackUrl: "/" })}
-                className={styles.nav_link}
-              >
-                Logout
-              </button>
+                <button
+                  onClick={() => signOut({ redirect: false, callbackUrl: "/" })}
+                  className={dropdownStyles.dropdown_item + " danger"}
+                >
+                  Logout
+                </button>
+              </Dropdown>
             </>
           ) : (
             <>
