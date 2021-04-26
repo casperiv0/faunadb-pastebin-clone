@@ -1,4 +1,4 @@
-# Pastebin clone - WIP
+# Pastebin clone
 
 This is a pastebin "clone". Mostly to learn more about OAuth and [FaunaDB](https://fauna.com/)
 
