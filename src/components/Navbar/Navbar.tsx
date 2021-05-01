@@ -37,6 +37,9 @@ export const Navbar = () => {
             </>
           ) : (
             <>
+              <Link href="/pastes/create">
+                <a className={styles.nav_link}>Create paste</a>
+              </Link>
               <Link href="/auth">
                 <a className={styles.nav_link}>Authenticate</a>
               </Link>

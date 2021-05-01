@@ -81,19 +81,17 @@ class PastesRouter {
     const { title, text, syntax } = body;
     const session = await getSession({ req });
 
-    if (!session || !session?.user?.name) {
-      throw new UnauthorizedException("You need to be logged in to continue");
-    }
-
     if (!title || !text) {
       throw new BadRequestException("`title` and `text` are required");
     }
 
-    const user = await client
-      .query<QueryData<User>>(Get(Match(Index("get_user_by_name"), session.user?.name)))
-      .catch(() => null);
+    const user = session?.user?.name
+      ? await client
+          .query<QueryData<User>>(Get(Match(Index("get_user_by_name"), session.user?.name)))
+          .catch(() => null)
+      : null;
 
-    if (!user?.data) {
+    if (session && !user?.data) {
       throw new BadRequestException("User was not found");
     }
 
@@ -106,7 +104,7 @@ class PastesRouter {
             syntax: syntax || "text",
             created_at: Date.now(),
             updated_at: Date.now(),
-            created_by: user.data,
+            created_by: user?.data ?? null,
           },
         }),
       )
@@ -140,7 +138,7 @@ class PastesRouter {
       throw new NotFoundException("That paste was not found");
     }
 
-    if (paste.data.created_by.name !== session.user?.name) {
+    if (paste.data.created_by?.name !== session.user?.name) {
       throw new HttpException(403, "This paste is not associated with your account");
     }
 
@@ -178,7 +176,7 @@ class PastesRouter {
       throw new NotFoundException("That paste was not found");
     }
 
-    if (paste.data.created_by.name !== session.user?.name) {
+    if (paste.data.created_by?.name !== session.user?.name) {
       throw new HttpException(403, "This paste is not associated with your account");
     }
 

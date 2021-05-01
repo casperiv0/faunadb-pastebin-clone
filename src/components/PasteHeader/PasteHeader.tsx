@@ -31,7 +31,20 @@ export const PasteHeader = ({ paste }: Props) => {
   }
 
   if (!paste?.created_by) {
-    return null;
+    return (
+      <div className={styles.paste_header}>
+        <div>
+          <h1>{paste.title}</h1>
+        </div>
+
+        <div>
+          <div className={styles.paste_creator_text}>
+            <p>Anonymous User</p>
+            <span>{format(+paste.created_at, "yyyy-MM-dd")}</span>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

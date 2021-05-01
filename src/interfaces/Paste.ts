@@ -5,7 +5,7 @@ export interface Paste {
   title: string;
   text: string;
   syntax: string;
-  created_by: User;
+  created_by: User | null;
 
   /**
    * Created at in ms

@@ -46,16 +46,22 @@ export const PastesTable = ({ pastes, showCreatedBy }: Props) => {
                   </td>
                   {showCreatedBy ? (
                     <td className={styles.created_by}>
-                      <Image
-                        src={paste.created_by.image}
-                        alt={paste.created_by.name}
-                        width="25px"
-                        height="25px"
-                        layout="fixed"
-                      />
-                      <Link href={`/user/${paste.created_by.name}`}>
-                        <a>{paste.created_by.name}</a>
-                      </Link>
+                      {paste.created_by?.name ? (
+                        <>
+                          <Image
+                            src={paste.created_by?.image}
+                            alt={paste.created_by?.name}
+                            width="25px"
+                            height="25px"
+                            layout="fixed"
+                          />
+                          <Link href={`/user/${paste.created_by?.name}`}>
+                            <a>{paste.created_by?.name}</a>
+                          </Link>
+                        </>
+                      ) : (
+                        <p>Anonymous user</p>
+                      )}
                     </td>
                   ) : null}
                   <td>
