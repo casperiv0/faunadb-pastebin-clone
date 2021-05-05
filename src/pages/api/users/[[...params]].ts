@@ -4,13 +4,16 @@ import {
   HttpException,
   NotFoundException,
   Param,
+  UseMiddleware,
 } from "@storyofams/next-api-decorators";
 import { Get, Index, Lambda, Map, Match, Paginate } from "faunadb";
 import { Paste } from "types/Paste";
 import { client } from "@lib/faunadb";
 import { User } from "types/User";
 import { QueryData } from "types/Query";
+import { Cors, Csurf } from "@lib/middlewares";
 
+@UseMiddleware(Cors, Csurf)
 class PastesRouter {
   @GetRoute("/:name")
   public async getUserByName(

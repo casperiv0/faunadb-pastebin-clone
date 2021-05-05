@@ -13,6 +13,7 @@ import {
   Query,
   Delete,
   Put,
+  UseMiddleware,
 } from "@storyofams/next-api-decorators";
 import {
   Collection,
@@ -35,7 +36,9 @@ import { Paste } from "types/Paste";
 import { User } from "types/User";
 import { client } from "@lib/faunadb";
 import { QueryData } from "types/Query";
+import { Cors, Csurf } from "@lib/middlewares";
 
+@UseMiddleware(Cors, Csurf)
 class PastesRouter {
   @GetRoute()
   public async getPastes(@Query() query: NextApiRequestQuery) {
