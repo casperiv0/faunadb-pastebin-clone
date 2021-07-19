@@ -6,7 +6,6 @@ import {
   NotFoundException,
   Param,
   Post,
-  ValidationPipe,
   BadRequestException,
   Req,
   UnauthorizedException,
@@ -36,9 +35,9 @@ import { Paste } from "types/Paste";
 import { User } from "types/User";
 import { client } from "@lib/faunadb";
 import { QueryData } from "types/Query";
-import { Cors, Csurf } from "@lib/middlewares";
+import { Cors } from "@lib/middlewares";
 
-@UseMiddleware(Cors, Csurf)
+@UseMiddleware(Cors)
 class PastesRouter {
   @GetRoute()
   public async getPastes(@Query() query: NextApiRequestQuery) {
@@ -80,7 +79,7 @@ class PastesRouter {
   }
 
   @Post()
-  public async createPaste(@Req() req: NextApiRequest, @Body(ValidationPipe) body: any) {
+  public async createPaste(@Req() req: NextApiRequest, @Body() body: any) {
     const { title, text, syntax } = body;
     const session = await getSession({ req });
 
@@ -123,11 +122,7 @@ class PastesRouter {
   }
 
   @Put("/:id")
-  public async editPaste(
-    @Req() req: NextApiRequest,
-    @Param("id") id: string,
-    @Body(ValidationPipe) body: any,
-  ) {
+  public async editPaste(@Req() req: NextApiRequest, @Param("id") id: string, @Body() body: any) {
     const paste = await client
       .query<QueryData<Paste>>(Get(Ref(Collection("pastes"), id)))
       .catch(() => null);

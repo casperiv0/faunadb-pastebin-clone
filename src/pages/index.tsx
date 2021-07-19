@@ -18,9 +18,9 @@ const HomePage: NextPage<Props> = ({ pastes }) => {
   const filtered = React.useMemo(() => {
     if (router.query.syntax) {
       return pastes.filter((p) => p.syntax === router.query.syntax);
-    } else {
-      return pastes;
     }
+
+    return pastes;
   }, [router, pastes]);
 
   return (

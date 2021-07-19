@@ -8,12 +8,12 @@ export interface Paste {
   created_by: User | null;
 
   /**
-   * Created at in ms
+   * created at in ms
    */
   created_at: number;
 
   /**
-   * Last updated at in ms
+   * last updated at in ms
    */
   updated_at: number;
 }

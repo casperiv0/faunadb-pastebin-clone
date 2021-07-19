@@ -4,14 +4,9 @@
     "es6": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:promise/recommended",
-    "plugin:json/recommended",
-    "plugin:promise/recommended",
-    "prettier"
+    "@casper124578/eslint-config",
+    "@casper124578/eslint-config-react",
+    "@casper124578/eslint-config-next"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -24,46 +19,5 @@
     },
     "ecmaVersion": 2018,
     "sourceType": "module"
-  },
-  "plugins": ["react", "@typescript-eslint", "promise", "prettier", "json"],
-  "rules": {
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"],
-    "no-multi-spaces": ["error"],
-    "eqeqeq": ["warn", "always"],
-    "no-unused-vars": ["error"],
-    "no-duplicate-case": ["error"],
-    "no-extra-semi": ["error"],
-    "no-unreachable": ["error"],
-    "default-case": ["warn"],
-    "default-case-last": ["error"],
-    "no-useless-catch": ["warn"],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/react-in-jsx-scope": "off",
-    "prettier/prettier": [
-      "warn",
-      {
-        "endOfLine": "auto"
-      }
-    ]
-  },
-  "overrides": [
-    {
-      "files": ["**/*.tsx", "**/*.ts"],
-      "rules": {
-        "no-unused-vars": "off",
-        "react/prop-types": "off",
-        "react/display-name": "off"
-      }
-    }
-  ],
-  "settings": {
-    "react": {
-      "createClass": "createReactClass",
-      "pragma": "React",
-      "fragment": "Fragment",
-      "version": "detect"
-    }
   }
 }

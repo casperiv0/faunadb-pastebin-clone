@@ -38,7 +38,6 @@ export default Auth({
   theme: "dark",
   callbacks: {
     signIn: async (user, _, profile) => {
-      // TODO: redirect to error page with ?error=
       if (!user.name) {
         return false;
       }
@@ -73,9 +72,9 @@ export default Auth({
 
       if (foundUser) {
         return true;
-      } else {
-        return false;
       }
+
+      return false;
     },
   },
 });

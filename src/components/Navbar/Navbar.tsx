@@ -29,7 +29,7 @@ export const Navbar = () => {
 
                 <button
                   onClick={() => signOut({ redirect: false, callbackUrl: "/" })}
-                  className={dropdownStyles.dropdown_item + " danger"}
+                  className={`${dropdownStyles.dropdown_item} danger`}
                 >
                   Logout
                 </button>

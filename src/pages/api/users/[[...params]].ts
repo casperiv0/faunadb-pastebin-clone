@@ -11,14 +11,12 @@ import { Paste } from "types/Paste";
 import { client } from "@lib/faunadb";
 import { User } from "types/User";
 import { QueryData } from "types/Query";
-import { Cors, Csurf } from "@lib/middlewares";
+import { Cors } from "@lib/middlewares";
 
-@UseMiddleware(Cors, Csurf)
+@UseMiddleware(Cors)
 class PastesRouter {
   @GetRoute("/:name")
-  public async getUserByName(
-    @Param("name") name: string,
-  ): Promise<{
+  public async getUserByName(@Param("name") name: string): Promise<{
     pastes: Paste[];
     user: User;
   }> {

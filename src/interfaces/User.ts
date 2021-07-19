@@ -1,7 +1,7 @@
 export interface User {
   id: string;
   /**
-   * Unique user name
+   * unique user name
    */
   name: string;
   image: string;

@@ -83,7 +83,7 @@ const CreatePastePage = () => {
             onChange={(e) => setBody(e.currentTarget.value)}
             id="paste_body"
             className={styles.form_input}
-          ></textarea>
+          />
         </div>
 
         <div style={{ float: "right" }}>

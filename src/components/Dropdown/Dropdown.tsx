@@ -3,9 +3,7 @@ import * as React from "react";
 import styles from "./dropdown.module.scss";
 import Image from "next/image";
 
-interface Props {}
-
-export const Dropdown: React.FC<Props> = ({ children }) => {
+export const Dropdown: React.FC = ({ children }) => {
   const [session] = useSession();
 
   return (
