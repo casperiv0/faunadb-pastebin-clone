@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next-sitemap",
-    "start": "next start -p 6061",
+    "start": "next start -p 3000",
     "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,sass}\" --ignore-path .gitignore",
     "lint": "eslint . --ext .js,.jsx,.json,.ts,.tsx"
   },

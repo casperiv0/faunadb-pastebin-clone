@@ -39,7 +39,7 @@ import { Cors } from "@lib/middlewares";
 
 @UseMiddleware(Cors)
 class PastesRouter {
-  @GetRoute()
+  @GetRoute("/")
   public async getPastes(@Query() query: NextApiRequestQuery) {
     const pastes = await client
       .query<{ data: { data: Paste; ref: any }[] }>(
