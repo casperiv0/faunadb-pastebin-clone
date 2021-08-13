@@ -30,7 +30,7 @@ import {
 } from "faunadb";
 import { NextApiRequest } from "next";
 import { getSession } from "next-auth/client";
-import { NextApiRequestQuery } from "next/dist/next-server/server/api-utils";
+import { NextApiRequestQuery } from "next/dist/server/api-utils";
 import { Paste } from "types/Paste";
 import { User } from "types/User";
 import { client } from "@lib/faunadb";
